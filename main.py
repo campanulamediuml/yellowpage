@@ -40,7 +40,7 @@ def get_page_range(html,url):
 
 def browse_html(url):
     print 'connecting....'
-    browser = webdriver.PhantomJS()
+    browser = webdriver.Chrome()
     browser.get(url)
     page_html = browser.page_source
     page_html = BeautifulSoup(page_html, 'html.parser')
