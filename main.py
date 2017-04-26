@@ -156,6 +156,7 @@ fh = open('bad_city.txt','a')
 count = 0
 for city in city_list:
     count = count+1
+    tmp = city_list[count:]
     city = (city.strip()).replace(' ','')
     url = "http://www.gelbeseiten.de/schuhe/"+city
     print 'getting page range...'
@@ -166,7 +167,7 @@ for city in city_list:
             bad_city.append(city)
             print city
             fh.write(city+'\n')
-            continue
+            
     except:
         page_list = get_page_range(page_html,url)
         if len(page_list) == 1:
@@ -175,9 +176,8 @@ for city in city_list:
             pool = ThreadPool(len(page_list))#建立线程池
             result_list = pool.map(get_contact_content,page_list)#多线程获取
         save_contact_info(result_list)#把结果写入文本文件
-
-    tmp = city_list[count:]
     refresh_list(tmp)
+
 
 fh.close()
 
