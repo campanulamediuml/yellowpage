@@ -8,6 +8,7 @@ import spidermethod
 from multiprocessing import Pool
 from multiprocessing.dummy import Pool as ThreadPool
 
+
 def get_page_range(html,url):   
     page_range = html.find(class_="hidden-xs desktop")
     page_range = page_range.find_all('li')
@@ -40,7 +41,7 @@ def get_page_range(html,url):
 
 def browse_html(url):
     print 'connecting....'
-    browser = webdriver.Chrome()
+    browser = webdriver.PhantomJS()
     browser.get(url)
     page_html = browser.page_source
     page_html = BeautifulSoup(page_html, 'html.parser')
@@ -151,10 +152,20 @@ def get_contact_content(page):
     return result_list
     #把主体存成一个专门的对象，等一下专门拿来做多线程用
 
+def refresh_list(tmp):
+    fh = open('city_name.txt','w')
+    for i in tmp:
+        fh.write(i)
+    fh.close()
+    #更新城市列表
+
 
 bad_city = []
 fh = open('city_name.txt','r')
 city_list = fh.readlines()
+fh = open('bad_city.txt','a')
+
+count = 0
 for city in city_list:
     city = (city.strip()).replace(' ','')
     url = "http://www.gelbeseiten.de/schuhe/"+city
@@ -165,18 +176,21 @@ for city in city_list:
         if str(head.get_text()) == 'Die angeforderte Seite konnte nicht gefunden werden.':
             bad_city.append(city)
             print city
+            fh.write(city+'\n')
             continue
     except:
         page_list = get_page_range(page_html,url)
-        pool = ThreadPool(len(page_list))#建立线程池
-        result_list = pool.map(get_contact_content,page_list)
-        save_contact_info(result_list)
+        if len(page_list) == 1:
+            result_list = [get_contact_content(page_list[0])]
+        else:
+            pool = ThreadPool(len(page_list))#建立线程池
+            result_list = pool.map(get_contact_content,page_list)#多线程获取
+        save_contact_info(result_list)#把结果写入文本文件
 
+    count = count + 1
+    tmp = city_list[count]
+    refresh_list(tmp)
 
-         
-fh = open('bad_city.txt','w')
-for i in bad_city:
-    fh.write(i+'\n')
 fh.close()
 
 
