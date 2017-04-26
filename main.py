@@ -37,7 +37,6 @@ def get_page_range(html,url):
     return page_list
     #返回列表
 
-
 def browse_html(url):
     print 'connecting....'
     browser = webdriver.PhantomJS()
@@ -49,7 +48,6 @@ def browse_html(url):
     return page_html
     #通过无界面浏览器访问目标网站
 
-
 def get_phone_number(html):
     try:
         phone = html.find(class_="phone")
@@ -58,7 +56,6 @@ def get_phone_number(html):
         phone_number = 'N/A'
     return phone_number
     #获取电话号码
-
 
 def get_address(html):
     try:
@@ -69,7 +66,6 @@ def get_address(html):
     return address.replace('\n','')
     #获取地址
 
-
 def get_shop_name(html):
     try:
         shop_name = html.find(itemprop="name")
@@ -79,7 +75,6 @@ def get_shop_name(html):
     return (name.strip()).replace('\n','')
     #获取店铺名称
 
-
 def get_open_time(html):
     try:
         open_time = html.find(class_="oeffnungszeitenanzeige__inhalt geoeffnet")
@@ -88,7 +83,6 @@ def get_open_time(html):
         open_time = 'N/A'
     return (open_time.strip()).replace('\n',' ')
     #获取营业时间
-
 
 def get_city_list():
     fh = open('city_name.txt')
@@ -106,7 +100,6 @@ def get_shop_link(html):
     return link
     #获取黄页上的店铺链接
 
-
 def get_shop_site(html):
     url = get_shop_link(html)
     try:
@@ -119,7 +112,6 @@ def get_shop_site(html):
     return shop.replace('\n','')
     #获取店铺的官网地址
 
-
 def save_contact_info(result_list):
     fh = open('contact_result.txt','a')
     for result in result_list:
@@ -128,7 +120,6 @@ def save_contact_info(result_list):
                 fh.write(i.encode('utf-8'))
     fh.close()
     #把每一页的结果保存起来~
-
 
 def get_result_list(contact_list):
     result_list = []
@@ -142,7 +133,6 @@ def get_result_list(contact_list):
         result_list.append(result)
     return result_list
     #获取整个页面的所有信息，然后保存起来
-
 
 def get_contact_content(page):
     page_html = browse_html(page)
@@ -158,7 +148,6 @@ def refresh_list(tmp):
     fh.close()
     #更新城市列表
 
-
 bad_city = []
 fh = open('city_name.txt','r')
 city_list = fh.readlines()
@@ -166,6 +155,7 @@ fh = open('bad_city.txt','a')
 
 count = 0
 for city in city_list:
+    count = count+1
     city = (city.strip()).replace(' ','')
     url = "http://www.gelbeseiten.de/schuhe/"+city
     print 'getting page range...'
@@ -186,8 +176,7 @@ for city in city_list:
             result_list = pool.map(get_contact_content,page_list)#多线程获取
         save_contact_info(result_list)#把结果写入文本文件
 
-    count = count + 1
-    tmp = city_list[count]
+    tmp = city_list[count:]
     refresh_list(tmp)
 
 fh.close()
