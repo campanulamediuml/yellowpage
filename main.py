@@ -8,7 +8,6 @@ import spidermethod
 from multiprocessing import Pool
 from multiprocessing.dummy import Pool as ThreadPool
 
-
 def get_page_range(html,url):   
     page_range = html.find(class_="hidden-xs desktop")
     page_range = page_range.find_all('li')
