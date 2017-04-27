@@ -1,6 +1,12 @@
-[INFO  - 2017-04-26T01:44:45.403Z] GhostDriver - Main - running on port 53472
-[INFO  - 2017-04-26T01:44:46.178Z] Session [ed4ec7e0-2a21-11e7-9329-a911c748548e] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
-[INFO  - 2017-04-26T01:44:46.178Z] Session [ed4ec7e0-2a21-11e7-9329-a911c748548e] - page.customHeaders:  - {}
-[INFO  - 2017-04-26T01:44:46.178Z] Session [ed4ec7e0-2a21-11e7-9329-a911c748548e] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
-[INFO  - 2017-04-26T01:44:46.178Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: ed4ec7e0-2a21-11e7-9329-a911c748548e
-[INFO  - 2017-04-26T01:49:45.396Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-04-26T05:38:10.131Z] GhostDriver - Main - running on port 50157
+[INFO  - 2017-04-26T05:38:11.164Z] Session [88ebeaa0-2a42-11e7-b162-831ccb67d2a7] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-04-26T05:38:11.164Z] Session [88ebeaa0-2a42-11e7-b162-831ccb67d2a7] - page.customHeaders:  - {}
+[INFO  - 2017-04-26T05:38:11.164Z] Session [88ebeaa0-2a42-11e7-b162-831ccb67d2a7] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-04-26T05:38:11.164Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 88ebeaa0-2a42-11e7-b162-831ccb67d2a7
+[ERROR - 2017-04-26T05:40:41.641Z] Session [88ea8b10-2a42-11e7-a359-a553cff825db] - page.onError - msg: Facebook Pixel Error: Duplicate Pixel ID: 1623159434614090
+
+  phantomjs://platform/console++.js:263 in error
+[ERROR - 2017-04-26T05:40:41.642Z] Session [88ea8b10-2a42-11e7-a359-a553cff825db] - page.onError - stack:
+  hb (http://connect.facebook.net/en_US/fbevents.js:9)
+
+  phantomjs://platform/console++.js:263 in error

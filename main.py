@@ -148,7 +148,7 @@ def refresh_list(tmp):
     fh.close()
     #更新城市列表
 
-bad_city = []
+#bad_city = []
 fh = open('city_name.txt','r')
 city_list = fh.readlines()
 fh = open('bad_city.txt','a')
@@ -158,24 +158,26 @@ for city in city_list:
     count = count+1
     tmp = city_list[count:]
     city = (city.strip()).replace(' ','')
-    url = "http://www.gelbeseiten.de/schuhe/"+city
-    print 'getting page range...'
-    page_html = spidermethod.get_htmlsoup(url)
     try:
+        url = "http://www.gelbeseiten.de/schuhe/"+city
+        print 'getting page range...'
+        page_html = spidermethod.get_htmlsoup(url)
         head = page_html.find(class_="messageHead")
         if str(head.get_text()) == 'Die angeforderte Seite konnte nicht gefunden werden.':
-            bad_city.append(city)
+            #bad_city.append(city)
             print city
             fh.write(city+'\n')
             
-    except:
-        page_list = get_page_range(page_html,url)
-        if len(page_list) == 1:
-            result_list = [get_contact_content(page_list[0])]
         else:
-            pool = ThreadPool(len(page_list))#建立线程池
-            result_list = pool.map(get_contact_content,page_list)#多线程获取
-        save_contact_info(result_list)#把结果写入文本文件
+            page_list = get_page_range(page_html,url)
+            if len(page_list) == 1:
+                result_list = [get_contact_content(page_list[0])]
+            else:
+                pool = ThreadPool(len(page_list))#建立线程池
+                result_list = pool.map(get_contact_content,page_list)#多线程获取
+            save_contact_info(result_list)#把结果写入文本文件
+    except:
+        fh.write(city+'\n')
     refresh_list(tmp)
 
 
