@@ -10,23 +10,26 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 def get_page_range(html,url):   
     page_range = html.find(class_="hidden-xs desktop")
-    page_range = page_range.find_all('li')
-    page_list= []
     try:
-        url = url.replace('https','http')
-    except:
-        pass
-    try:
-        for i in page_range:
-            page = i.find('a')
-            #通过a标签定位网址位置
-            try:
-                page_link = page['href'].replace('https','http')
-                print page_link
-                page_list.append(page_link)
-            except:#把页面网址储存成列表
-                continue
-        page_list = [url]+page_list
+        page_range = page_range.find_all('li')
+        page_list= []
+        try:
+            url = url.replace('https','http')
+        except:
+            pass
+        try:
+            for i in page_range:
+                page = i.find('a')
+                #通过a标签定位网址位置
+                try:
+                    page_link = page['href'].replace('https','http')
+                    print page_link
+                    page_list.append(page_link)
+                except:#把页面网址储存成列表
+                    continue
+            page_list = [url]+page_list
+        except:
+            page_list = [url]
     except:
         page_list = [url]
     #pagelist列表中储存网址
@@ -151,33 +154,34 @@ def refresh_list(tmp):
 #bad_city = []
 fh = open('city_name.txt','r')
 city_list = fh.readlines()
-fh = open('bad_city.txt','a')
+
 
 count = 0
 for city in city_list:
     count = count+1
     tmp = city_list[count:]
     city = (city.strip()).replace(' ','')
+    
+    url = "http://www.gelbeseiten.de/schuhe/"+city
+    print 'getting page range...'
+    page_html = spidermethod.get_htmlsoup(url)
+    head = page_html.find(class_="messageHead")
     try:
-        url = "http://www.gelbeseiten.de/schuhe/"+city
-        print 'getting page range...'
-        page_html = spidermethod.get_htmlsoup(url)
-        head = page_html.find(class_="messageHead")
         if str(head.get_text()) == 'Die angeforderte Seite konnte nicht gefunden werden.':
             #bad_city.append(city)
             print city
-            fh.write(city+'\n')
             
-        else:
-            page_list = get_page_range(page_html,url)
-            if len(page_list) == 1:
-                result_list = [get_contact_content(page_list[0])]
-            else:
-                pool = ThreadPool(len(page_list))#建立线程池
-                result_list = pool.map(get_contact_content,page_list)#多线程获取
-            save_contact_info(result_list)#把结果写入文本文件
+            
     except:
-        fh.write(city+'\n')
+        page_list = get_page_range(page_html,url)
+        if len(page_list) == 1:
+            result_list = [get_contact_content(page_list[0])]
+        else:
+            pool = ThreadPool(len(page_list))#建立线程池
+            result_list = pool.map(get_contact_content,page_list)#多线程获取
+        save_contact_info(result_list)#把结果写入文本文件
+
+    
     refresh_list(tmp)
 
 
